@@ -99,7 +99,6 @@ func CreatePDF(m pdf.Maroto) pdf.Maroto {
 	return m
 }
 
-// generate the same value for each row
 func GetContent(i int, v m.Animal) []string {
 	var contents []string
 	contents = append(contents, strconv.Itoa(i+1))
