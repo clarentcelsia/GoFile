@@ -43,3 +43,5 @@ var Contents = []m.Animal{
 	},
 }
 var BytePDF bytes.Buffer
+
+var FormFieldName = "file"
