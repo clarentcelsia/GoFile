@@ -53,7 +53,7 @@ func CreatePDF(m pdf.Maroto) pdf.Maroto {
 			m.Text("Designed by")
 		})
 		m.Col(uint(RowHeight-1), func() {
-			m.Text("Produced by")
+			m.Text("Written by")
 		})
 	})
 	m.Row(5, func() {})
