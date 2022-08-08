@@ -1,6 +1,10 @@
 package data
 
 import (
+	"encoding/csv"
+	"fmt"
+	"os"
+	"path/filepath"
 	m "pdf/models"
 	"strconv"
 
@@ -8,6 +12,35 @@ import (
 	"github.com/johnfercher/maroto/pkg/pdf"
 	"github.com/johnfercher/maroto/pkg/props"
 )
+
+func ReadCSV() {
+	curr_dir, _ := os.Getwd()
+	file, _ := os.Open(filepath.Join(curr_dir, "file.csv"))
+
+	defer file.Close()
+
+	// Read each records of the file
+	contents, _ := csv.NewReader(file).ReadAll()
+	for _, v := range contents {
+		fmt.Println(v)
+	}
+}
+
+func CreateCSV() {
+	curr_dir, _ := os.Getwd()
+	file, _ := os.Create(filepath.Join(curr_dir, "file.csv"))
+	defer file.Close()
+
+	//write to csv
+	w := csv.NewWriter(file)
+	for i, v := range Contents {
+		w.Write(GetCSVContent(i, v))
+	}
+	defer w.Flush() //writes are 'buffered' call flush to ensure that the content has already written to underlying writer
+
+	// OR
+	// w.WriteAll(CSVContents)
+}
 
 func CreatePDF(m pdf.Maroto) pdf.Maroto {
 	m.RegisterHeader(func() {
@@ -97,6 +130,16 @@ func CreatePDF(m pdf.Maroto) pdf.Maroto {
 	})
 
 	return m
+}
+
+func GetCSVContent(i int, v m.Animal) []string {
+	var csvcontents []string
+	csvcontents = append(csvcontents, strconv.Itoa(i+1))
+	csvcontents = append(csvcontents, v.Name)
+	csvcontents = append(csvcontents, v.Type)
+	csvcontents = append(csvcontents, v.Description)
+
+	return csvcontents
 }
 
 func GetContent(i int, v m.Animal) []string {

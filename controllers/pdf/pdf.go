@@ -132,3 +132,11 @@ func UploadFormFile(c *gin.Context) {
 	// 	return
 	// }
 }
+
+func CreateCSVFile(c *gin.Context) {
+	data.CreateCSV()
+}
+
+func GetCSVFile(c *gin.Context) {
+	data.ReadCSV()
+}

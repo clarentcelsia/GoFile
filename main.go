@@ -12,6 +12,8 @@ func main() {
 	router := gin.Default()
 	router.GET("/animal", cAnimal.Animal)
 	router.GET("/pdf", cPdf.DownloadPDFFromReader)
+	router.GET("/readcsv", cPdf.GetCSVFile)
+	router.POST("/csv", cPdf.CreateCSVFile)
 	router.POST("/upload", cPdf.UploadFormFile)
 	router.POST("/dataupload", cAnimal.GetDataUpload)
 	router.Run(":8082")
