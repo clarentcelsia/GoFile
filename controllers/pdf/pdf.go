@@ -56,6 +56,30 @@ func DownloadPDFFromReader(c *gin.Context) {
 
 }
 
+func GenerateGOFPDF(c *gin.Context) {
+	response, err := http.Get("http://localhost:8082/random")
+	if err != nil {
+		c.Status(http.StatusServiceUnavailable)
+	}
+
+	var result map[string]interface{}
+	resbyte, errread := ioutil.ReadAll(response.Body)
+	if errread != nil {
+		c.JSON(http.StatusInternalServerError, errread)
+		return
+	}
+	json.Unmarshal(resbyte, &result)
+
+	data := result["data"].(string)
+	databyte, _ := base64.StdEncoding.DecodeString(data)
+
+	headers := map[string]string{
+		"Content-Disposition": `attachment; filename="random.pdf"`,
+	}
+	reader := bytes.NewReader(databyte)
+	c.DataFromReader(http.StatusOK, response.ContentLength, "application/pdf", reader, headers)
+}
+
 // MULTIPART
 func UploadFormFile(c *gin.Context) {
 	var animal m.Animal
@@ -139,4 +163,15 @@ func CreateCSVFile(c *gin.Context) {
 
 func GetCSVFile(c *gin.Context) {
 	data.ReadCSV()
+}
+
+func GenerateHTMl(c *gin.Context) {
+	templ := []string{"header.tmpl", "content.tmpl", "page.tmpl", "footer.tmpl"}
+
+	var templs []string
+	for _, v := range templ {
+		templs = append(templs, "./data/templates/"+v)
+	}
+
+	data.GenerateHTML(templs)
 }

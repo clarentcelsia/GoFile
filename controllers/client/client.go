@@ -11,7 +11,6 @@ import (
 	u "pdf/utils"
 
 	"github.com/gin-gonic/gin"
-	"github.com/johnfercher/maroto/pkg/pdf"
 )
 
 func Animal(c *gin.Context) {
@@ -20,26 +19,10 @@ func Animal(c *gin.Context) {
 }
 
 func GenerateAnimalPDF(c *gin.Context) {
-	m := pdf.NewMaroto(data.Orientation, data.Paper)
-	m.SetPageMargins(10, 10, 10)
-	mpdf := data.CreatePDF(m)
-
-	// Generate PDF to local
-	// if err := mpdf.OutputFileAndClose("animal.pdf"); err != nil {
-	// 	u.HandleResponse(c, err, "Failed to download file", http.StatusInternalServerError)
-	// 	return
-	// }
-	//=========================================
-
-	// Generate PDF in Byte
-	bytePdf, err := mpdf.Output()
-	if err != nil {
-		fmt.Print("Failed to generate pdf file")
-		return
-	}
+	mbytes, _ := data.CreatePDF()
 
 	// save to dummy
-	data.BytePDF = bytePdf
+	data.BytePDF = mbytes
 
 	// encrypt bytes to string
 	encodeddatabytes := base64.StdEncoding.EncodeToString(data.BytePDF.Bytes())

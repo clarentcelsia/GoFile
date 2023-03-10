@@ -1,5 +1,13 @@
 package data
 
+import (
+	"bytes"
+	"fmt"
+	"strings"
+
+	"github.com/jung-kurt/gofpdf"
+)
+
 const FOrientation = "P"
 const FPaper = "A4"
 const FUnit = "mm"
