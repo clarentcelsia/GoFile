@@ -20,6 +20,7 @@ func main() {
 	router.POST("/dataupload", cClient.GetDataUpload)
 	router.GET("/html", cPdf.GenerateHTMl)
 
+	router.GET("/pdftest", cPdf.GetLegalDocPDF)
 	router.GET("/func/imageresize", cFile.ImageResize)
 	router.Run(":8082")
 }

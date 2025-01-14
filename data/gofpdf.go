@@ -5,7 +5,8 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/jung-kurt/gofpdf"
+	// "github.com/jung-kurt/gofpdf"
+	"github.com/go-pdf/fpdf"
 )
 
 const FOrientation = "P"
@@ -41,7 +42,7 @@ var FContents = [][]string{
 }
 
 func CreatePDF() (bytes.Buffer, error) {
-	gopdf := gofpdf.New(FOrientation, FUnit, FPaper, FFontdir)
+	gopdf := fpdf.New(FOrientation, FUnit, FPaper, FFontdir)
 	gopdf.SetMargins(FMarginX, FMarginY, FMarginX)
 	gopdf.AddPage()
 	pagewidth, pageheight := gopdf.GetPageSize()
